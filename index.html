@@ -18,8 +18,6 @@
         button { width:100%; padding:24px; background:#1e40af; color:white; border:none; border-radius:20px; font-size:2em; font-weight:700; cursor:pointer; margin:50px 0; box-shadow:0 15px 40px rgba(30,64,175,0.3); }
         button:hover { background:#172554; }
         #result { margin-top:60px; padding:50px; background:#f0f9ff; border-radius:20px; border-left:8px solid #1e40af; font-size:1.6em; line-height:2; text-align:center; display:none; }
-        .share { text-align:center; margin-top:40px; display:none; }
-        .share a { margin:0 15px; padding:18px 40px; background:#1e40af; color:white; text-decoration:none; border-radius:16px; font-weight:600; }
     </style>
 </head>
 <body>
@@ -60,11 +58,6 @@
         <button onclick="calculate()">HESAPLA KANKA!</button>
 
         <div id="result"></div>
-        <div class="share" id="share">
-            <p>Sonucunu paylaş, milleti çatlat!</p>
-            <a href="#" onclick="shareTwitter()">Twitter</a>
-            <a href="#" onclick="shareWhatsApp()">WhatsApp</a>
-        </div>
     </div>
 
     <script>
@@ -83,44 +76,36 @@
         const ekstra = parseFloat(document.getElementById('ekstra').value) || 8000;
         const investRate = parseFloat(document.getElementById('invest').value) / 100;
 
-        let monthlySave = income - kiraMiktar - (kids * 12000) - (car * 8000) - ekstra;
+        let totalExpense = kiraMiktar + (kids * 10000) + (car * 8000) + ekstra;
+        let monthlySave = income - totalExpense;
 
         if (monthlySave <= 0) {
-            const komik = [
-                `${name}, kanka sen şu an <strong>aylık ${Math.abs(monthlySave).toLocaleString()} TL açık</strong> veriyorsun. Milyonerlik bir yana, ay sonunu nasıl getiriyorsun? 😂`,
-                `Abi senin harcamaların gelirini geçmiş, milyoner değil, <strong>borç milyarderi</strong> olursun bu gidişle 😅`,
-                `${name}, bırak milyoner olmayı, bir an önce <strong>borçsuz</strong> olmaya bak kanka! 🤦‍♂️`
-            ];
-            document.getElementById('result').innerHTML = `<h2>${komik[Math.floor(Math.random()*komik.length)]}</h2>`;
+            document.getElementById('result').innerHTML = `
+                <h2>${name}, kanka durum kritik!</h2>
+                <p>Aylık birikim: <strong>${monthlySave.toLocaleString()} TL</strong> (açık veriyorsun!)</p>
+                <p>Bu gidişle milyoner değil, <strong>borç kralı</strong> olursun. Kahve bağımlılığını bırak, aylık 1.000 TL kurtar 😅</p>
+            `;
         } else {
+            const annualSave = monthlySave * 12;
             const yearsTo65 = 65 - age;
-            const totalSavings = monthlySave * 12 * ((Math.pow(1 + investRate, yearsTo65) - 1) / investRate) * (1 + investRate);
+            let totalSavings = 0;
+            for (let y = 1; y <= yearsTo65; y++) {
+                totalSavings = (totalSavings + annualSave) * (1 + investRate);
+            }
 
-            const komikMesaj = totalSavings > 50000000 ? [
-                `${name}, sen 65 yaşında <strong>${(totalSavings/1000000).toFixed(1)} MİLYON TL</strong> ile emekli olacaksın! Ada mı alsan, yat mı alsan karar veremeyeceksin 😂`,
-                `Kanka senin torunların doğmadan milyoner olacak, senin ne işin var burada hesap yapmakla? 😎`,
-                `${name}, senin birikiminle Fenerbahçe’yi satın alırsın herhalde! 💰`
-            ] : totalSavings > 20000000 ? [
-                `${name}, 65 yaşında <strong>${(totalSavings/1000000).toFixed(1)} milyon TL</strong> rahat rahat yaşarsın, torunlara miras kalır! 👴💰`,
-                `Helal kanka, bu gidişle <strong>emekli maaşına ihtiyaç duymayacaksın</strong>, maaş sana ihtiyaç duyacak 😂`
-            ] : [
-                `${name}, 65 yaşında <strong>${(totalSavings/1000000).toFixed(1)} milyon TL</strong> birikimin olacak. Rahat yaşarsın ama yat alamazsın 😅`,
-                `Kanka bu gidişle <strong>iyi bir emeklilik</strong> yaparsın ama Ferrari’yi unut! 😂`
-            ];
+            const milyonerYasi = age + Math.ceil(10000000 / annualSave);
+            const ozgurlukAyi = Math.ceil(1200000 / monthlySave);
 
             document.getElementById('result').innerHTML = `
-                <h2>${komikMesaj[Math.floor(Math.random()*komikMesaj.length)]}</h2>
-                <p>Finansal özgürlüğe <strong>${Math.round(1200000/monthlySave)}</strong> ay uzaktasın!</p>
-                <p>Milyoner olmak için <strong>${age + Math.round(10000000/(monthlySave*12))}</strong> yaşına kadar çalışman lazım!</p>
-                <p>Aylık birikimin: <strong>${monthlySave.toLocaleString()} TL</strong> – aferin kanka!</p>
+                <h2>${name}, kanka hazır mısın? 😎</h2>
+                <p>Aylık birikim: <strong>${monthlySave.toLocaleString()} TL</strong> (helal olsun, kahve bağımlılığını bırakırsan +1.000 TL ekle!)</p>
+                <p>65 yaşında <strong>${(totalSavings/1000000).toFixed(1)} MİLYON TL</strong> birikimin olacak. Bu parayla bir villa alırsın kanka!</p>
+                <p>Finansal özgürlüğe <strong>${ozgurlukAyi}</strong> ay uzaktasın – o zamana kadar sabır!</p>
+                <p>Milyoner olmak için <strong>${milyonerYasi}</strong> yaşına kadar çalışman lazım. Sonra tatil, yat, kanka partileri! 😂</p>
             `;
         }
         document.getElementById('result').style.display = "block";
-        document.getElementById('share').style.display = "block";
     }
-
-    function shareTwitter() { window.open('https://twitter.com/intent/tweet?text=Ben%20Hesapçı’da%20hesapladım,%2065%20yaşında%20${(totalSavings/1000000).toFixed(1)}%20milyon%20TL%20olacağım!%20Sen%20de%20hesapla:%20https://hesapci.vercel.app'); }
-    function shareWhatsApp() { window.open('https://wa.me/?text=Ben%20Hesapçı’da%20hesapladım,%2065%20yaşında%20${(totalSavings/1000000).toFixed(1)}%20milyon%20TL%20olacağım!%20Sen%20de%20hesapla:%20https://hesapci.vercel.app'); }
     </script>
 </body>
 </html>
