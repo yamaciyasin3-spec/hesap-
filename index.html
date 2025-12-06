@@ -26,7 +26,7 @@
         <p class="subtitle">Gelirini, kiranı, faturalarını, kahve bağımlılığını söyle... bakalım milyoner olacak mısın kanka 😂</p>
 
         <div class="form-grid">
-            <div class="full"><label>Adın</label><input type="text" id="name" placeholder="Örn: Ahmet"></div>
+            <div class="full"><label>Adın (isteğe bağlı)</label><input type="text" id="name" placeholder="Örn: Ahmet"></div>
             <div><label>Yaşın</label><input type="number" id="age" value="28"></div>
             <div><label>Aylık Net Gelirin (TL)</label><input type="number" id="income" value="40000"></div>
             <div><label>Kirada mısın?</label>
@@ -43,14 +43,14 @@
             <div><label>Araban var mı?</label>
                 <select id="car"><option value="0">Yok</option><option value="1">Var</option></select>
             </div>
-            <div><label>Ekstra Giderler (kahve, dışarıda yemek, telefon taksiti vs.)</label>
+            <div><label>Ekstra Giderler (kahve, dışarı yemek, telefon vs.)</label>
                 <input type="number" id="ekstra" value="8000">
             </div>
             <div class="full"><label>Yatırım Tarzın</label>
                 <select id="invest">
-                    <option value="7">Güvenli (altın, mevduat)</option>
-                    <option value="10">Orta (borsa, fon)</option>
-                    <option value="13">Yüksek (kripto, girişim)</option>
+                    <option value="7">Güvenli (%7 - altın, mevduat)</option>
+                    <option value="10">Orta (%10 - borsa, fon)</option>
+                    <option value="13">Yüksek (%13 - kripto)</option>
                 </select>
             </div>
         </div>
@@ -80,28 +80,32 @@
         let monthlySave = income - totalExpense;
 
         if (monthlySave <= 0) {
-            document.getElementById('result').innerHTML = `
-                <h2>${name}, kanka durum kritik!</h2>
-                <p>Aylık birikim: <strong>${monthlySave.toLocaleString()} TL</strong> (açık veriyorsun!)</p>
-                <p>Bu gidişle milyoner değil, <strong>borç kralı</strong> olursun. Kahve bağımlılığını bırak, aylık 1.000 TL kurtar 😅</p>
-            `;
+            const komik = [
+                `${name}, kanka senin maaşın yetmiyor bile! Aylık <strong>${Math.abs(monthlySave).toLocaleString()} TL</strong> açık... Kahve bağımlılığını bırak, aylık 1.000 TL kurtar 😂`,
+                `Kanka, bu gidişle milyoner değil, <strong>borç kralı</strong> olursun. Biraz tutumlu ol, yoksa 65 yaşında emekli maaşına muhtaç kalırsın 😅`
+            ];
+            document.getElementById('result').innerHTML = `<h2>${komik[Math.floor(Math.random()*komik.length)]}</h2>`;
         } else {
-            const annualSave = monthlySave * 12;
             const yearsTo65 = 65 - age;
             let totalSavings = 0;
             for (let y = 1; y <= yearsTo65; y++) {
-                totalSavings = (totalSavings + annualSave) * (1 + investRate);
+                totalSavings = (totalSavings + monthlySave * 12) * (1 + investRate);
             }
 
-            const milyonerYasi = age + Math.ceil(10000000 / annualSave);
+            const milyonerYasi = age + Math.ceil(10000000 / (monthlySave * 12));
             const ozgurlukAyi = Math.ceil(1200000 / monthlySave);
 
+            const komik = [
+                `${name}, helal olsun! Aylık <strong>${monthlySave.toLocaleString()} TL</strong> birikimle 65 yaşında <strong>${(totalSavings/1000000).toFixed(1)} MİLYON TL</strong> olacaksın! Yat mı alsan, ada mı alsan? 😎`,
+                `Kanka, bu gidişle <strong>${milyonerYasi} yaşında milyoner olursun</strong>. O zamana kadar kahve içmeye devam, enerji lazım! 😂`,
+                `${name}, senin torunların milyoner doğacak. Senin ne işin var burada hesap yapmakla? Git tatile çık! 💰`
+            ];
+
             document.getElementById('result').innerHTML = `
-                <h2>${name}, kanka hazır mısın? 😎</h2>
-                <p>Aylık birikim: <strong>${monthlySave.toLocaleString()} TL</strong> (helal olsun, kahve bağımlılığını bırakırsan +1.000 TL ekle!)</p>
-                <p>65 yaşında <strong>${(totalSavings/1000000).toFixed(1)} MİLYON TL</strong> birikimin olacak. Bu parayla bir villa alırsın kanka!</p>
-                <p>Finansal özgürlüğe <strong>${ozgurlukAyi}</strong> ay uzaktasın – o zamana kadar sabır!</p>
-                <p>Milyoner olmak için <strong>${milyonerYasi}</strong> yaşına kadar çalışman lazım. Sonra tatil, yat, kanka partileri! 😂</p>
+                <h2>${komik[Math.floor(Math.random()*komik.length)]}</h2>
+                <p>Finansal özgürlüğe <strong>${ozgurlukAyi} ay</strong> uzaktasın!</p>
+                <p>Milyoner olmak için <strong>${milyonerYasi}</strong> yaşına kadar çalışman lazım!</p>
+                <p>Aylık birikimin: <strong>${monthlySave.toLocaleString()} TL</strong> – bu tempo devam ederse kral olursun kanka!</p>
             `;
         }
         document.getElementById('result').style.display = "block";
