@@ -3,136 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hesapçı - Ne Kadar Zengin Olurdum?</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <title>Hesapçı - Milyoner Olur Muydum?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #0a0a1a; --card: #12122c; --accent: #00ff88; --text: #e0e0ff; }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height:100vh; padding:20px; }
-        .container { max-width: 700px; margin: 40px auto; }
-        .card { background: var(--card); border-radius: 30px; padding: 50px; box-shadow: 0 20px 60px rgba(0,255,136,0.15); border: 1px solid rgba(0,255,136,0.2); }
-        h1 { font-size: 3.5em; text-align:center; background: linear-gradient(90deg, #00ff88, #00ccff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
-        .subtitle { text-align:center; font-size:1.3em; margin-bottom:40px; opacity:0.9; }
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom:40px; }
-        .full { grid-column: 1 / -1; }
-        label { display:block; margin-bottom:10px; font-weight:600; color:#00ff88; }
-        input, select { width:100%; padding:18px; border-radius:15px; border:none; background:rgba(255,255,255,0.1); color:white; font-size:18px; }
-        input::placeholder { color:rgba(255,255,255,0.6); }
-        button { width:100%; padding:22px; background: linear-gradient(45deg, #ff6b6b, #feca57); color:white; border:none; border-radius:20px; font-size:2em; font-weight:900; cursor:pointer; margin:40px 0; box-shadow:0 15px 40px rgba(0,0,0,0.3); transition:0.4s; }
-        button:hover { transform:translateY(-8px); box-shadow:0 25px 60px rgba(0,0,0,0.4); }
-        #result { margin-top:60px; padding:40px; background:rgba(0,255,136,0.1); border-radius:25px; font-size:1.6em; line-height:2; text-align:center; display:none; }
-        .chart { height:300px; margin:40px 0; }
-        .share { text-align:center; margin-top:30px; display:none; }
-        .share a { display:inline-block; margin:0 15px; padding:15px 30px; background:#00ff88; color:black; text-decoration:none; border-radius:15px; font-weight:bold; }
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: linear-gradient(135deg, #1e3c72, #2a5298); 
+            color: #fff; 
+            margin:0; 
+            padding:20px; 
+            min-height:100vh;
+            display:flex; 
+            align-items:center; 
+            justify-content:center;
+        }
+        .container { 
+            max-width: 600px; 
+            background: rgba(255,255,255,0.1); 
+            backdrop-filter: blur(15px); 
+            border-radius: 30px; 
+            padding: 50px; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4); 
+            text-align:center;
+            border: 2px solid gold;
+        }
+        h1 { 
+            font-size: 3.5em; 
+            background: linear-gradient(90deg, gold, #ffd700, gold); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            margin-bottom:20px; 
+            text-shadow: 0 5px 15px rgba(255,215,0,0.5);
+        }
+        p.subtitle { font-size:1.4em; margin-bottom:40px; color:#fff; }
+        input, select { 
+            width:100%; 
+            padding:18px; 
+            margin:15px 0; 
+            border-radius:15px; 
+            border:none; 
+            font-size:1.4em; 
+            background:rgba(255,255,255,0.2); 
+            color:white; 
+        }
+        input::placeholder, select { color:#fff; opacity:0.8; }
+        button { 
+            width:100%; 
+            padding:22px; 
+            background: linear-gradient(45deg, gold, #ffd700); 
+            color:#000; 
+            border:none; 
+            border-radius:20px; 
+            font-size:2em; 
+            font-weight:900; 
+            cursor:pointer; 
+            margin:40px 0; 
+            box-shadow:0 15px 40px rgba(255,215,0,0.5); 
+        }
+        button:hover { transform:scale(1.05); box-shadow:0 25px 60px rgba(255,215,0,0.7); }
+        #result { 
+            margin-top:50px; 
+            padding:40px; 
+            background:rgba(255,215,0,0.15); 
+            border-radius:25px; 
+            font-size:1.8em; 
+            line-height:2; 
+            border:2px dashed gold; 
+            display:none; 
+        }
+        .share { margin-top:40px; display:none; }
+        .share a { 
+            display:inline-block; 
+            margin:0 20px; 
+            padding:15px 35px; 
+            background:gold; 
+            color:black; 
+            text-decoration:none; 
+            border-radius:15px; 
+            font-weight:bold; 
+            font-size:1.3em;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="card">
-            <h1>Hesapçı</h1>
-            <p class="subtitle">65 yaşında ne kadar zengin olacaksın? Detaylı analiz, 1 reklamla ücretsiz!</p>
-            
-            <div class="form-grid">
-                <div>
-                    <label>Yaşın</label>
-                    <input type="number" id="age" value="28" oninput="calculateSaveRate()">
-                </div>
-                <div>
-                    <label>Aylık Net Gelirin (TL)</label>
-                    <input type="number" id="income" value="35000" oninput="calculateSaveRate()">
-                </div>
-                <div>
-                    <label>Aylık Harcaman (TL)</label>
-                    <input type="number" id="expense" value="22000" oninput="calculateSaveRate()">
-                </div>
-                <div>
-                    <label>Birikim Oranın (%)</label>
-                    <input type="number" id="saveRate" value="0" readonly>
-                </div>
-                <div>
-                    <label>Ev sahibi misin?</label>
-                    <select id="home">
-                        <option value="0">Kiradayım</option>
-                        <option value="1">Ev sahibiyim</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Araban var mı?</label>
-                    <select id="car">
-                        <option value="0">Yok</option>
-                        <option value="1">Var</option>
-                    </select>
-                </div>
-                <div class="full">
-                    <label>Çocuk planın var mı?</label>
-                    <select id="kids">
-                        <option value="0">Yok</option>
-                        <option value="1">1 çocuk</option>
-                        <option value="2">2+ çocuk</option>
-                    </select>
-                </div>
-                <div class="full">
-                    <label>Yatırım tercihin?</label>
-                    <select id="invest">
-                        <option value="8">Altın (%8 getiri - Altın, gram, çeyrek, cumhuriyet vb.)</option>
-                        <option value="15">Kripto (%15 getiri - Bitcoin, Ethereum, Altcoinler vb.)</option>
-                        <option value="12">Borsa (%12 getiri - Bist, Hisse senetleri, fonlar vb.)</option>
-                    </select>
-                </div>
-            </div>
+        <h1>MİLYONER OLUR MUYDUM?</h1>
+        <p class="subtitle">Gerçekçi analiz. 1 reklamla ücretsiz!</p>
 
-            <button onclick="calculate()">HESAPLA</button>
+        <input type="number" id="age" placeholder="Yaşın" value="28">
+        <input type="number" id="income" placeholder="Aylık Gelirin (TL)" value="35000">
+        <input type="number" id="expense" placeholder="Aylık Harcaman (TL)" value="22000">
+        <input type="number" id="saveRate" placeholder="Birikim Oranım (%)" value="37" readonly>
 
-            <div id="result"></div>
-            <div class="share" id="share">
-                <p>Sonucunu paylaş:</p>
-                <a href="#" onclick="shareTwitter()">Twitter</a>
-                <a href="#" onclick="shareWhatsApp()">WhatsApp</a>
-            </div>
+        <select id="invest">
+            <option value="8">Altın (%8 getiri)</option>
+            <option value="12">Borsa (%12 getiri)</option>
+            <option value="15">Kripto (%15 getiri)</option>
+        </select>
+
+        <button onclick="calculate()">HESAPLA</button>
+
+        <div id="result"></div>
+
+        <div class="share" id="share">
+            <p>Sonucunu paylaş, arkadaşlarını şok et!</p>
+            <a href="#" onclick="shareTwitter()">Twitter</a>
+            <a href="#" onclick="shareWhatsApp()">WhatsApp</a>
         </div>
     </div>
 
     <script>
-    function calculateSaveRate() {
-        const income = parseFloat(document.getElementById('income').value) || 0;
-        const expense = parseFloat(document.getElementById('expense').value) || 0;
-        const saveRate = income > 0 ? ((income - expense) / income * 100).toFixed(1) : 0;
-        document.getElementById('saveRate').value = saveRate;
-    }
-
     function calculate() {
         const age = parseInt(document.getElementById('age').value) || 28;
         const income = parseFloat(document.getElementById('income').value) || 35000;
         const expense = parseFloat(document.getElementById('expense').value) || 22000;
-        const saveRate = parseFloat(document.getElementById('saveRate').value) || 0;
-        const home = parseInt(document.getElementById('home').value) || 0;
-        const car = parseInt(document.getElementById('car').value) || 0;
-        const kids = parseInt(document.getElementById('kids').value) || 0;
-        const invest = parseFloat(document.getElementById('invest').value) || 8;
+        const saveRate = ((income - expense) / income * 100).toFixed(1);
+        document.getElementById('saveRate').value = saveRate;
 
-        let monthlySave = income - expense;
-        monthlySave *= (1 + saveRate / 100);
-        if (home === 0) monthlySave -= 15000; // Kira masrafı
-        if (car === 1) monthlySave -= 5000; // Araba masrafı
-        if (kids > 0) monthlySave -= kids * 8000; // Çocuk masrafı
-
+        const monthlySave = income - expense;
         const annualSave = monthlySave * 12;
+        const investRate = parseFloat(document.getElementById('invest').value) / 100;
         const yearsTo65 = 65 - age;
-        const totalSavings = annualSave * yearsTo65 * Math.pow(1 + (invest / 100), yearsTo65);
+        const totalSavings = annualSave * yearsTo65 * Math.pow(1 + investRate, yearsTo65);
 
         document.getElementById('result').innerHTML = `
-            <h2>🚀 Detaylı Sonuç:</h2>
-            <p>65 yaşında yaklaşık <strong>${(totalSavings/1000000).toFixed(1)} MİLYON TL</strong> birikimin olacak!</p>
-            <p>Finansal özgürlüğe <strong>${Math.round(1000000/monthlySave)} ay</strong> uzaktasın!</p>
+            <h2>SONUÇ</h2>
+            <p>65 yaşında <strong>${(totalSavings/1000000).toFixed(1)} MİLYON TL</strong> birikimin olacak!</p>
+            <p>Finansal özgürlüğe <strong>${Math.round(1200000/monthlySave)}</strong> ay uzaktasın!</p>
             <p>Milyoner olmak için <strong>${age + Math.round((10000000/annualSave))}</strong> yaşına kadar çalışman lazım!</p>
-            <p>Yatırım getiri tahminin: %${invest} (seçtiğin ${document.getElementById('invest').options[document.getElementById('invest').selectedIndex].text})</p>
-            <p>Ev: ${home === 1 ? "Sahibisin, kira yok" : "Kiradasın, aylık -15.000 TL"} | Araba: ${car === 1 ? "Var, aylık -5.000 TL" : "Yok"} | Çocuk: ${kids === 0 ? "Yok" : kids + " çocuk, aylık -" + kids * 8000 + " TL"}</p>
+            <p>Yatırım: ${document.getElementById('invest').options[document.getElementById('invest').selectedIndex].text}</p>
         `;
+        document.getElementById('result').style.display = "block";
         document.getElementById('share').style.display = "block";
     }
 
-    function shareTwitter() { window.open('https://twitter.com/intent/tweet?text=Ben%20Hesapçı’da%20hesapladım:%2065%20yaşında%20${(totalSavings/1000000).toFixed(1)}%20milyon%20TL!%20Sen%20de%20hesapla:%20https://hesapci.vercel.app'); }
-    function shareWhatsApp() { window.open('https://wa.me/?text=Ben%20Hesapçı’da%20hesapladım:%2065%20yaşında%20${(totalSavings/1000000).toFixed(1)}%20milyon%20TL!%20Sen%20de%20hesapla:%20https://hesapci.vercel.app'); }
+    function shareTwitter() { 
+        window.open('https://twitter.com/intent/tweet?text=65%20yaşında%20${(totalSavings/1000000).toFixed(1)}%20milyon%20TL%20olacağım!%20Sen%20hesapla:%20https://hesapci.vercel.app'); 
+    }
+    function shareWhatsApp() { 
+        window.open('https://wa.me/?text=65%20yaşında%20${(totalSavings/1000000).toFixed(1)}%20milyon%20TL%20olacağım!%20Sen%20hesapla:%20https://hesapci.vercel.app'); 
+    }
     </script>
 </body>
 </html>
