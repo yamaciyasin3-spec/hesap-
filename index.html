@@ -1,2 +1,50 @@
-<h1>Milyoner Olurdum Hesaplayıcı</h1>
-<p>1 dakika içinde hazır olacak, sabret kanka...</p>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hesapçı - Ne Kadar Zengin Olurdum?</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #0f0f23, #16213e); color: white; margin:0; padding:20px; text-align:center; min-height:100vh; display:flex; align-items:center; justify-content:center; }
+        .container { max-width: 550px; padding: 40px; background: rgba(26,26,46,0.95); border-radius: 25px; box-shadow: 0 20px 60px rgba(0,255,136,0.3); }
+        h1 { color: #00ff88; font-size: 2.8em; margin-bottom:30px; text-shadow: 0 0 20px rgba(0,255,136,0.5); }
+        input { width:100%; padding:18px; margin:15px 0; border-radius:15px; border:none; font-size:20px; background:#16213e; color:white; }
+        input::placeholder { color:#00ff88; opacity:0.7; }
+        button { margin-top:30px; padding:18px 60px; background:#00ff88; color:black; border:none; border-radius:50px; font-weight:bold; font-size:22px; cursor:pointer; box-shadow: 0 10px 30px rgba(0,255,136,0.4); }
+        button:hover { background:#00cc66; transform:scale(1.05); transition:0.3s; }
+        #result { margin-top:50px; font-size:24px; line-height:1.8; background:rgba(0,255,136,0.1); padding:30px; border-radius:20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ne Kadar Zengin Olurdum?</h1>
+        <input type="number" id="age" placeholder="Yaşın" value="25">
+        <input type="number" id="income" placeholder="Aylık Gelirin (TL)" value="30000">
+        <input type="number" id="expense" placeholder="Aylık Harcaman (TL)" value="18000">
+        <input type="number" id="saveRate" placeholder="Birikim Oranın (%)" value="30">
+        <button onclick="calculate()">HESAPLA</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+    function calculate() {
+        const age = parseInt(document.getElementById('age').value) || 25;
+        const income = parseFloat(document.getElementById('income').value) || 30000;
+        const expense = parseFloat(document.getElementById('expense').value) || 18000;
+        const saveRate = (parseFloat(document.getElementById('saveRate').value) || 30) / 100;
+        
+        const monthlySave = (income - expense) + (income * saveRate);
+        const annualSave = monthlySave * 12;
+        const yearsTo65 = 65 - age;
+        const totalSavings = annualSave * yearsTo65 * Math.pow(1.07, yearsTo65);
+        
+        document.getElementById('result').innerHTML = `
+            <h2>🚀 Sonuç:</h2>
+            <p>65 yaşında yaklaşık <strong>${(totalSavings/1000000).toFixed(1)} MİLYON TL</strong> birikimin olur!</p>
+            <p>Finansal özgürlüğe <strong>${Math.round(1000000/monthlySave)} ay</strong> uzaktasın!</p>
+            <p>Milyoner olmak için <strong>${age + Math.round((10000000/annualSave))}</strong> yaşına kadar çalışman lazım!</p>
+        `;
+    }
+    </script>
+</body>
+</html>
