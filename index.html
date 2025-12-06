@@ -25,13 +25,12 @@
 <body>
     <div class="container">
         <h1>Ne Kadar Zengin Olurdum?</h1>
-        <p class="subtitle">Gerçekçi analiz. Gelirini, harcamalarını, hayatını söyle... bakalım milyoner olacak mısın?</p>
+        <p class="subtitle">Gelirini, kiranı, faturalarını, kahve bağımlılığını söyle... bakalım milyoner olacak mısın kanka 😂</p>
 
         <div class="form-grid">
             <div class="full"><label>Adın</label><input type="text" id="name" placeholder="Örn: Ahmet"></div>
             <div><label>Yaşın</label><input type="number" id="age" value="28"></div>
             <div><label>Aylık Net Gelirin (TL)</label><input type="number" id="income" value="40000"></div>
-            <div><label>Aylık Toplam Harcaman (TL)</label><input type="number" id="expense" value="28000"></div>
             <div><label>Kirada mısın?</label>
                 <select id="kira" onchange="toggleKira()">
                     <option value="0">Hayır</option>
@@ -39,31 +38,30 @@
                 </select>
             </div>
             <div id="kiraDiv" style="display:none;">
-                <label>Aylık Kira (TL)</label>
-                <input type="number" id="kiraMiktar" value="15000">
+                <label>Aylık Kira + Fatura (TL)</label>
+                <input type="number" id="kiraMiktar" value="18000">
             </div>
             <div><label>Çocuk Sayısı</label><input type="number" id="kids" value="0"></div>
             <div><label>Araban var mı?</label>
-                <select id="car">
-                    <option value="0">Yok</option>
-                    <option value="1">Var</option>
-                </select>
+                <select id="car"><option value="0">Yok</option><option value="1">Var</option></select>
             </div>
-            <div><label>Ekstra Masrafların (tatil, telefon, kafe vs.)</label><input type="number" id="ekstra" value="5000"></div>
-            <div class="full"><label>Yatırım Getiri Tercihin (Yıllık Net)</label>
+            <div><label>Ekstra Giderler (kahve, dışarıda yemek, telefon taksiti vs.)</label>
+                <input type="number" id="ekstra" value="8000">
+            </div>
+            <div class="full"><label>Yatırım Tarzın</label>
                 <select id="invest">
-                    <option value="7">Güvenli (%7 - altın, mevduat)</option>
-                    <option value="10">Orta (%10 - borsa, fon)</option>
-                    <option value="13">Yüksek (%13 - kripto, girişim)</option>
+                    <option value="7">Güvenli (altın, mevduat)</option>
+                    <option value="10">Orta (borsa, fon)</option>
+                    <option value="13">Yüksek (kripto, girişim)</option>
                 </select>
             </div>
         </div>
 
-        <button onclick="calculate()">HESAPLA</button>
+        <button onclick="calculate()">HESAPLA KANKA!</button>
 
         <div id="result"></div>
         <div class="share" id="share">
-            <p>Sonucunu paylaş!</p>
+            <p>Sonucunu paylaş, milleti çatlat!</p>
             <a href="#" onclick="shareTwitter()">Twitter</a>
             <a href="#" onclick="shareWhatsApp()">WhatsApp</a>
         </div>
@@ -78,44 +76,51 @@
         const name = document.getElementById('name').value.trim() || "Kanka";
         const age = parseInt(document.getElementById('age').value) || 28;
         const income = parseFloat(document.getElementById('income').value) || 40000;
-        const expense = parseFloat(document.getElementById('expense').value) || 28000;
         const kira = parseInt(document.getElementById('kira').value);
-        const kiraMiktar = kira ? parseFloat(document.getElementById('kiraMiktar').value) || 15000 : 0;
+        const kiraMiktar = kira ? parseFloat(document.getElementById('kiraMiktar').value) || 18000 : 0;
         const kids = parseInt(document.getElementById('kids').value) || 0;
         const car = parseInt(document.getElementById('car').value);
-        const ekstra = parseFloat(document.getElementById('ekstra').value) || 5000;
+        const ekstra = parseFloat(document.getElementById('ekstra').value) || 8000;
         const investRate = parseFloat(document.getElementById('invest').value) / 100;
 
-        // Gerçekçi aylık masraflar
-        let totalExpense = expense + kiraMiktar + (kids * 10000) + (car * 7000) + ekstra;
-        let monthlySave = income - totalExpense;
+        let monthlySave = income - kiraMiktar - (kids * 12000) - (car * 8000) - ekstra;
 
         if (monthlySave <= 0) {
-            document.getElementById('result').innerHTML = `
-                <h2>${name}, kanka durum kritik!</h2>
-                <p>Aylık <strong>${Math.abs(monthlySave).toLocaleString()} TL</strong> açık veriyorsun.</p>
-                <p>Önce harcamayı azalt, sonra milyonerlik hayali kurarız 😂</p>
-            `;
+            const komik = [
+                `${name}, kanka sen şu an <strong>aylık ${Math.abs(monthlySave).toLocaleString()} TL açık</strong> veriyorsun. Milyonerlik bir yana, ay sonunu nasıl getiriyorsun? 😂`,
+                `Abi senin harcamaların gelirini geçmiş, milyoner değil, <strong>borç milyarderi</strong> olursun bu gidişle 😅`,
+                `${name}, bırak milyoner olmayı, bir an önce <strong>borçsuz</strong> olmaya bak kanka! 🤦‍♂️`
+            ];
+            document.getElementById('result').innerHTML = `<h2>${komik[Math.floor(Math.random()*komik.length)]}</h2>`;
         } else {
             const yearsTo65 = 65 - age;
-            // Bileşik faiz + enflasyon düşülmüş net getiri
             const totalSavings = monthlySave * 12 * ((Math.pow(1 + investRate, yearsTo65) - 1) / investRate) * (1 + investRate);
 
+            const komikMesaj = totalSavings > 50000000 ? [
+                `${name}, sen 65 yaşında <strong>${(totalSavings/1000000).toFixed(1)} MİLYON TL</strong> ile emekli olacaksın! Ada mı alsan, yat mı alsan karar veremeyeceksin 😂`,
+                `Kanka senin torunların doğmadan milyoner olacak, senin ne işin var burada hesap yapmakla? 😎`,
+                `${name}, senin birikiminle Fenerbahçe’yi satın alırsın herhalde! 💰`
+            ] : totalSavings > 20000000 ? [
+                `${name}, 65 yaşında <strong>${(totalSavings/1000000).toFixed(1)} milyon TL</strong> rahat rahat yaşarsın, torunlara miras kalır! 👴💰`,
+                `Helal kanka, bu gidişle <strong>emekli maaşına ihtiyaç duymayacaksın</strong>, maaş sana ihtiyaç duyacak 😂`
+            ] : [
+                `${name}, 65 yaşında <strong>${(totalSavings/1000000).toFixed(1)} milyon TL</strong> birikimin olacak. Rahat yaşarsın ama yat alamazsın 😅`,
+                `Kanka bu gidişle <strong>iyi bir emeklilik</strong> yaparsın ama Ferrari’yi unut! 😂`
+            ];
+
             document.getElementById('result').innerHTML = `
-                <h2>${name.toUpperCase()}, İŞTE GERÇEK SONUÇ!</h2>
-                <p>65 yaşında yaklaşık <strong>${(totalSavings/1000000).toFixed(1)} MİLYON TL</strong> birikimin olacak!</p>
-                <p>Aylık birikimin: <strong>${monthlySave.toLocaleString()} TL</strong></p>
-                <p>Finansal özgürlüğe <strong>${Math.round(1200000 / monthlySave)}</strong> ay uzaktasın!</p>
-                <p>Milyoner olmak için <strong>${age + Math.round(10000000 / (monthlySave * 12))}</strong> yaşına kadar çalışman lazım!</p>
-                <p>Helal olsun kanka, bu tempoyla kesin zengin olursun! 💰</p>
+                <h2>${komikMesaj[Math.floor(Math.random()*komikMesaj.length)]}</h2>
+                <p>Finansal özgürlüğe <strong>${Math.round(1200000/monthlySave)}</strong> ay uzaktasın!</p>
+                <p>Milyoner olmak için <strong>${age + Math.round(10000000/(monthlySave*12))}</strong> yaşına kadar çalışman lazım!</p>
+                <p>Aylık birikimin: <strong>${monthlySave.toLocaleString()} TL</strong> – aferin kanka!</p>
             `;
         }
         document.getElementById('result').style.display = "block";
         document.getElementById('share').style.display = "block";
     }
 
-    function shareTwitter() { window.open('https://twitter.com/intent/tweet?text=Ben%20${name}%20diye%20hesapladım,%2065%20yaşında%20${(totalSavings/1000000).toFixed(1)}%20milyon%20TL%20olacağım!%20Sen%20de%20hesapla:%20https://hesapci.vercel.app'); }
-    function shareWhatsApp() { window.open('https://wa.me/?text=Ben%20${name}%20diye%20hesapladım,%2065%20yaşında%20${(totalSavings/1000000).toFixed(1)}%20milyon%20TL%20olacağım!%20Sen%20de%20hesapla:%20https://hesapci.vercel.app'); }
+    function shareTwitter() { window.open('https://twitter.com/intent/tweet?text=Ben%20Hesapçı’da%20hesapladım,%2065%20yaşında%20${(totalSavings/1000000).toFixed(1)}%20milyon%20TL%20olacağım!%20Sen%20de%20hesapla:%20https://hesapci.vercel.app'); }
+    function shareWhatsApp() { window.open('https://wa.me/?text=Ben%20Hesapçı’da%20hesapladım,%2065%20yaşında%20${(totalSavings/1000000).toFixed(1)}%20milyon%20TL%20olacağım!%20Sen%20de%20hesapla:%20https://hesapci.vercel.app'); }
     </script>
 </body>
 </html>
