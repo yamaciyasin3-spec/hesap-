@@ -3,13 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- ADSENSE DOĞRULAMA (KESİN ÇALIŞIR) -->
-    <meta name="google-adsense-account" content="ca-pub-3852960467508583">
     <title>Hesapçı - Ne Kadar Zengin Olurdum?</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- ADSENSE REKLAM SCRIPT -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3852960467508583"
-     crossorigin="anonymous"></script>
     <style>
         body { font-family: 'Inter', sans-serif; background:#f8fafc; color:#1e293b; padding:20px; min-height:100vh; }
         .container { max-width:800px; margin:40px auto; background:white; border-radius:24px; padding:60px; box-shadow:0 20px 60px rgba(0,0,0,0.08); }
@@ -53,9 +48,9 @@
             </div>
             <div class="full"><label>Yatırım Tarzın</label>
                 <select id="invest">
-                    <option value="7">Güvenli (%7)</option>
-                    <option value="10">Orta (%10)</option>
-                    <option value="13">Yüksek (%13)</option>
+                    <option value="7">Güvenli (%7 - altın, mevduat)</option>
+                    <option value="10">Orta (%10 - borsa, fon)</option>
+                    <option value="13">Yüksek (%13 - kripto)</option>
                 </select>
             </div>
         </div>
@@ -65,26 +60,12 @@
         <div id="result"></div>
     </div>
 
-    <!-- REKLAM (5 saniye tam ekran) -->
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-3852960467508583"
-         data-ad-slot="1234567890" <!-- BURAYA SENİN SLOT ID'Nİ YAZACAKSIN -->
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
     <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+        function toggleKira() {
+            document.getElementById('kiraDiv').style.display = document.getElementById('kira').value == "1" ? "block" : "none";
+        }
 
-    <script>
-    function toggleKira() {
-        document.getElementById('kiraDiv').style.display = document.getElementById('kira').value == "1" ? "block" : "none";
-    }
-
-    function calculate() {
-        // 5 saniye reklam göster
-        (adsbygoogle = window.adsbygoogle || []).push({});
-        setTimeout(() => {
+        function calculate() {
             const name = document.getElementById('name').value.trim() || "Kanka";
             const age = parseInt(document.getElementById('age').value) || 28;
             const income = parseFloat(document.getElementById('income').value) || 40000;
@@ -99,7 +80,11 @@
             let monthlySave = income - totalExpense;
 
             if (monthlySave <= 0) {
-                document.getElementById('result').innerHTML = `<h2>${name}, kanka durum kritik! Aylık <strong>${Math.abs(monthlySave).toLocaleString()} TL</strong> açık veriyorsun. Kahve bağımlılığını bırak 😂</h2>`;
+                const komik = [
+                    `${name}, kanka senin maaşın yetmiyor bile! Aylık <strong>${Math.abs(monthlySave).toLocaleString()} TL</strong> açık... Kahve bağımlılığını bırak, aylık 1.000 TL kurtar 😂`,
+                    `Kanka, bu gidişle milyoner değil, <strong>borç kralı</strong> olursun. Biraz tutumlu ol, yoksa 65 yaşında emekli maaşına muhtaç kalırsın 😅`
+                ];
+                document.getElementById('result').innerHTML = `<h2>${komik[Math.floor(Math.random()*komik.length)]}</h2>`;
             } else {
                 const yearsTo65 = 65 - age;
                 let totalSavings = 0;
@@ -107,20 +92,21 @@
                     totalSavings = (totalSavings + monthlySave * 12) * (1 + investRate);
                 }
                 const milyonerYasi = age + Math.ceil(10000000 / (monthlySave * 12));
+                const ozgurlukAyi = Math.ceil(1200000 / monthlySave);
                 const komik = [
-                    `${name}, helal olsun! 65 yaşında <strong>${(totalSavings/1000000).toFixed(1)} MİLYON TL</strong> birikimin olacak! Yat mı alsan, ada mı alsan? 😎`,
-                    `Kanka, bu gidişle <strong>${milyonerYasi} yaşında milyoner olursun</strong>. O zamana kadar kahve içmeye devam! 😂`,
+                    `${name}, helal olsun! Aylık <strong>${monthlySave.toLocaleString()} TL</strong> birikimle 65 yaşında <strong>${(totalSavings/1000000).toFixed(1)} MİLYON TL</strong> olacaksın! Yat mı alsan, ada mı alsan? 😎`,
+                    `Kanka, bu gidişle <strong>${milyonerYasi} yaşında milyoner olursun</strong>. O zamana kadar kahve içmeye devam, enerji lazım! 😂`,
                     `${name}, senin torunların milyoner doğacak. Senin ne işin var burada hesap yapmakla? Git tatile çık! 💰`
                 ];
                 document.getElementById('result').innerHTML = `
                     <h2>${komik[Math.floor(Math.random()*komik.length)]}</h2>
-                    <p>Aylık birikimin: <strong>${monthlySave.toLocaleString()} TL</strong></p>
-                    <p>Finansal özgürlüğe <strong>${Math.round(1200000/monthlySave)} ay</strong> uzaktasın!</p>
+                    <p>Finansal özgürlüğe <strong>${ozgurlukAyi} ay</strong> uzaktasın!</p>
+                    <p>Milyoner olmak için <strong>${milyonerYasi}</strong> yaşına kadar çalışman lazım!</p>
+                    <p>Aylık birikimin: <strong>${monthlySave.toLocaleString()} TL</strong> – bu tempo devam ederse kral olursun kanka!</p>
                 `;
             }
             document.getElementById('result').style.display = "block";
-        }, 5000);
-    }
+        }
     </script>
 </body>
 </html>
