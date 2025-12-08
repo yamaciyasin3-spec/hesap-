@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-adsense-account" content="ca-pub-3852960467508583">
     <title>Hesapçı - Ne Kadar Zengin Olurdum?</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -23,7 +24,7 @@
 <body>
     <div class="container">
         <h1>Ne Kadar Zengin Olurdum?</h1>
-        <p class="subtitle">Gelirini, kiranı, faturalarını, kahve bağımlılığını söyle... bakalım milyoner olacak mısın kanka 😂</p>
+        <p class="subtitle">Gelirini, kiranı, kahve bağımlılığını söyle... bakalım milyoner olacak mısın kanka 😂</p>
 
         <div class="form-grid">
             <div class="full"><label>Adın (isteğe bağlı)</label><input type="text" id="name" placeholder="Örn: Ahmet"></div>
@@ -48,9 +49,9 @@
             </div>
             <div class="full"><label>Yatırım Tarzın</label>
                 <select id="invest">
-                    <option value="7">Güvenli (%7 - altın, mevduat)</option>
-                    <option value="10">Orta (%10 - borsa, fon)</option>
-                    <option value="13">Yüksek (%13 - kripto)</option>
+                    <option value="7">Güvenli (%7)</option>
+                    <option value="10">Orta (%10)</option>
+                    <option value="13">Yüksek (%13)</option>
                 </select>
             </div>
         </div>
@@ -61,52 +62,51 @@
     </div>
 
     <script>
-        function toggleKira() {
-            document.getElementById('kiraDiv').style.display = document.getElementById('kira').value == "1" ? "block" : "none";
-        }
+    function toggleKira() {
+        document.getElementById('kiraDiv').style.display = document.getElementById('kira').value == "1" ? "block" : "none";
+    }
 
-        function calculate() {
-            const name = document.getElementById('name').value.trim() || "Kanka";
-            const age = parseInt(document.getElementById('age').value) || 28;
-            const income = parseFloat(document.getElementById('income').value) || 40000;
-            const kira = parseInt(document.getElementById('kira').value);
-            const kiraMiktar = kira ? parseFloat(document.getElementById('kiraMiktar').value) || 18000 : 0;
-            const kids = parseInt(document.getElementById('kids').value) || 0;
-            const car = parseInt(document.getElementById('car').value);
-            const ekstra = parseFloat(document.getElementById('ekstra').value) || 8000;
-            const investRate = parseFloat(document.getElementById('invest').value) / 100;
+    function calculate() {
+        const name = document.getElementById('name').value.trim() || "Kanka";
+        const age = parseInt(document.getElementById('age').value) || 28;
+        const income = parseFloat(document.getElementById('income').value) || 40000;
+        const kira = parseInt(document.getElementById('kira').value);
+        const kiraMiktar = kira ? parseFloat(document.getElementById('kiraMiktar').value) || 18000 : 0;
+        const kids = parseInt(document.getElementById('kids').value) || 0;
+        const car = parseInt(document.getElementById('car').value);
+        const ekstra = parseFloat(document.getElementById('ekstra').value) || 8000;
+        const investRate = parseFloat(document.getElementById('invest').value) / 100;
 
-            let totalExpense = kiraMiktar + (kids * 10000) + (car * 8000) + ekstra;
-            let monthlySave = income - totalExpense;
+        let totalExpense = kiraMiktar + (kids * 10000) + (car * 8000) + ekstra;
+        let monthlySave = income - totalExpense;
 
-            if (monthlySave <= 0) {
-                const komik = [
-                    `${name}, kanka senin maaşın yetmiyor bile! Aylık <strong>${Math.abs(monthlySave).toLocaleString()} TL</strong> açık... Kahve bağımlılığını bırak, aylık 1.000 TL kurtar 😂`,
-                    `Kanka, bu gidişle milyoner değil, <strong>borç kralı</strong> olursun. Biraz tutumlu ol, yoksa 65 yaşında emekli maaşına muhtaç kalırsın 😅`
-                ];
-                document.getElementById('result').innerHTML = `<h2>${komik[Math.floor(Math.random()*komik.length)]}</h2>`;
-            } else {
-                const yearsTo65 = 65 - age;
-                let totalSavings = 0;
-                for (let y = 1; y <= yearsTo65; y++) {
-                    totalSavings = (totalSavings + monthlySave * 12) * (1 + investRate);
-                }
-                const milyonerYasi = age + Math.ceil(10000000 / (monthlySave * 12));
-                const ozgurlukAyi = Math.ceil(1200000 / monthlySave);
-                const komik = [
-                    `${name}, helal olsun! Aylık <strong>${monthlySave.toLocaleString()} TL</strong> birikimle 65 yaşında <strong>${(totalSavings/1000000).toFixed(1)} MİLYON TL</strong> olacaksın! Yat mı alsan, ada mı alsan? 😎`,
-                    `Kanka, bu gidişle <strong>${milyonerYasi} yaşında milyoner olursun</strong>. O zamana kadar kahve içmeye devam, enerji lazım! 😂`,
-                    `${name}, senin torunların milyoner doğacak. Senin ne işin var burada hesap yapmakla? Git tatile çık! 💰`
-                ];
-                document.getElementById('result').innerHTML = `
-                    <h2>${komik[Math.floor(Math.random()*komik.length)]}</h2>
-                    <p>Finansal özgürlüğe <strong>${ozgurlukAyi} ay</strong> uzaktasın!</p>
-                    <p>Milyoner olmak için <strong>${milyonerYasi}</strong> yaşına kadar çalışman lazım!</p>
-                    <p>Aylık birikimin: <strong>${monthlySave.toLocaleString()} TL</strong> – bu tempo devam ederse kral olursun kanka!</p>
-                `;
+        if (monthlySave <= 0) {
+            const komik = [
+                `${name}, kanka senin maaşın yetmiyor bile! Aylık <strong>${Math.abs(monthlySave).toLocaleString()} TL</strong> açık... Kahve bağımlılığını bırak 😂`,
+                `Kanka, bu gidişle milyoner değil, <strong>borç kralı</strong> olursun 😅`
+            ];
+            document.getElementById('result').innerHTML = `<h2>${komik[Math.floor(Math.random()*komik.length)]}</h2>`;
+        } else {
+            const yearsTo65 = 65 - age;
+            let totalSavings = 0;
+            for (let y = 1; y <= yearsTo65; y++) {
+                totalSavings = (totalSavings + monthlySave * 12) * (1 + investRate);
             }
-            document.getElementById('result').style.display = "block";
+            const milyonerYasi = age + Math.ceil(10000000 / (monthlySave * 12));
+            const komik = [
+                `${name}, helal olsun! 65 yaşında <strong>${(totalSavings/1000000).toFixed(1)} MİLYON TL</strong> olacak! Yat mı alsan? 😎`,
+                `Kanka, bu gidişle <strong>${milyonerYasi} yaşında milyoner olursun</strong>. O zamana kadar kahve içmeye devam! 😂`,
+                `${name}, senin torunların milyoner doğacak! 💰`
+            ];
+            document.getElementById('result').innerHTML = `
+                <h2>${komik[Math.floor(Math.random()*komik.length)]}</h2>
+                <p>Aylık birikimin: <strong>${monthlySave.toLocaleString()} TL</strong></p>
+                <p>Finansal özgürlüğe <strong>${Math.round(1200000/monthlySave)} ay</strong> uzaktasın!</p>
+                <p>Milyoner olmak için <strong>${milyonerYasi}</strong> yaşına kadar çalışman lazım!</p>
+            `;
         }
+        document.getElementById('result').style.display = "block";
+    }
     </script>
 </body>
 </html>
